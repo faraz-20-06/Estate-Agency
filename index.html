@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Acres — Pakistan's Premier Estate Agency</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { 50:'#ECFDF5',100:'#D1FAE5',200:'#A7F3D0',300:'#6EE7B7',400:'#34D399',500:'#10B981',600:'#059669',700:'#047857',800:'#065F46',900:'#064E3B',950:'#022C22' },
+            pk: { green:'#01411C', dark:'#001A0D', gold:'#D4AF37', cream:'#FDF8F0', sand:'#F5E6CC' }
+          },
+          fontFamily: { display:['Plus Jakarta Sans','sans-serif'], body:['Inter','sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    *{font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#f8fafc}::-webkit-scrollbar-thumb{background:#d1d5db;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#9ca3af}
+    @keyframes fade-in-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes count-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes slide-in-right{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+    @keyframes pulse-whatsapp{0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,0.5)}50%{box-shadow:0 0 0 14px rgba(37,211,102,0)}}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .anim-fiu{opacity:0;animation:fade-in-up .8s cubic-bezier(.16,1,.3,1) forwards}
+    .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}
+    .reveal{opacity:0;transform:translateY(30px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+    .reveal.active{opacity:1;transform:translateY(0)}
+    .modal-overlay{transition:opacity .3s}.modal-overlay.hidden{opacity:0;pointer-events:none}
+    .modal-content{transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .3s}
+    .modal-overlay.hidden .modal-content{transform:scale(.95) translateY(10px);opacity:0}
+    .toast{transition:all .4s cubic-bezier(.16,1,.3,1)}.toast.hidden{transform:translateY(16px);opacity:0;pointer-events:none}
+    html{scroll-behavior:smooth}
+    .prop-card{transition:all .4s cubic-bezier(.16,1,.3,1)}
+    .prop-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px -12px rgba(0,0,0,.12)}
+    .badge-new{background:linear-gradient(135deg,#10B981,#059669)}
+    .badge-hot{background:linear-gradient(135deg,#F59E0B,#D97706)}
+    .badge-featured{background:linear-gradient(135deg,#3B82F6,#2563EB)}
+    .filter-btn.active{background:#01411C;color:#fff;border-color:#01411C}
+  </style>
+</head>
+<body class="bg-white text-neutral-800">
+
+<!-- Toast -->
+<div id="toast" class="toast hidden fixed bottom-24 right-6 z-[200] bg-pk-dark text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-3 max-w-sm">
+  <iconify-icon id="toast-icon" icon="lucide:check-circle" width="18" class="text-brand-400 flex-shrink-0"></iconify-icon>
+  <span id="toast-msg" class="text-sm font-medium"></span>
+</div>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/923001234567?text=Assalam%20o%20Alaikum!%20I%20am%20interested%20in%20a%20property." target="_blank" class="fixed bottom-6 right-6 z-[150] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300" style="animation:pulse-whatsapp 2.5s infinite">
+  <iconify-icon icon="logos:whatsapp-icon" width="28"></iconify-icon>
+</a>
+
+<!-- Nav -->
+<nav id="navbar" class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md transition-shadow duration-300">
+  <div class="max-w-7xl mx-auto px-5 h-16 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2.5">
+      <div class="w-9 h-9 bg-pk-green rounded-lg flex items-center justify-center">
+        <iconify-icon icon="lucide:building-2" width="18" class="text-white"></iconify-icon>
+      </div>
+      <div>
+        <span class="text-base font-display font-bold text-pk-green tracking-tight leading-none">Green Acres</span>
+        <span class="block text-[9px] text-neutral-400 font-medium tracking-wider uppercase leading-none mt-0.5">Estate Agency</span>
+      </div>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#properties" class="text-[13px] font-semibold text-neutral-500 hover:text-pk-green transition-colors">Properties</a>
+      <a href="#services" class="text-[13px] font-semibold text-neutral-500 hover:text-pk-green transition-colors">Services</a>
+      <a href="#areas" class="text-[13px] font-semibold text-neutral-500 hover:text-pk-green transition-colors">Areas</a>
+      <a href="#about" class="text-[13px] font-semibold text-neutral-500 hover:text-pk-green transition-colors">About</a>
+      <a href="#contact" class="text-[13px] font-semibold text-neutral-500 hover:text-pk-green transition-colors">Contact</a>
+      <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="bg-pk-green text-white text-[12px] font-bold uppercase tracking-wider h-9 px-5 rounded-lg hover:bg-pk-dark transition-colors">List Property</button>
+    </div>
+    <button id="mob-toggle" onclick="toggleMobile()" class="md:hidden w-9 h-9 rounded-lg bg-neutral-100 flex items-center justify-center">
+      <iconify-icon id="mob-icon" icon="lucide:menu" width="18"></iconify-icon>
+    </button>
+  </div>
+  <div id="mob-menu" class="md:hidden overflow-hidden transition-all duration-400" style="max-height:0;opacity:0">
+    <div class="px-5 pb-5 pt-3 flex flex-col gap-3 border-t border-neutral-100">
+      <a href="#properties" onclick="closeMobile()" class="text-sm font-medium text-neutral-600 py-1.5">Properties</a>
+      <a href="#services" onclick="closeMobile()" class="text-sm font-medium text-neutral-600 py-1.5">Services</a>
+      <a href="#areas" onclick="closeMobile()" class="text-sm font-medium text-neutral-600 py-1.5">Areas</a>
+      <a href="#about" onclick="closeMobile()" class="text-sm font-medium text-neutral-600 py-1.5">About</a>
+      <a href="#contact" onclick="closeMobile()" class="text-sm font-medium text-neutral-600 py-1.5">Contact</a>
+      <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'});closeMobile()" class="bg-pk-green text-white text-sm font-bold h-10 rounded-lg w-full">List Property</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="relative min-h-[92vh] flex items-center pt-16 overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <img src="https://picsum.photos/seed/pakistan-cityscape-modern/1920/1080.jpg" alt="Pakistan Skyline" class="w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/60"></div>
+  </div>
+  <div class="max-w-7xl mx-auto px-5 w-full grid lg:grid-cols-12 gap-12 items-center py-12">
+    <div class="lg:col-span-6">
+      <span class="anim-fiu inline-flex items-center gap-2 bg-brand-50 text-brand-700 text-[10px] font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full mb-6">
+        <iconify-icon icon="lucide:shield-check" width="12"></iconify-icon> Trusted Since 2010
+      </span>
+      <h1 class="anim-fiu d1 text-4xl lg:text-[56px] font-display font-extrabold leading-[1.05] tracking-tight text-pk-dark mb-5">
+        Find Your <span class="text-pk-green">Dream Home</span> in Pakistan
+      </h1>
+      <p class="anim-fiu d2 text-base text-neutral-500 leading-relaxed max-w-md mb-8">
+        From DHA Lahore to Clifton Karachi, Bahria Town to F-Sectors Islamabad — we connect you with Pakistan's finest properties.
+      </p>
+      <div class="anim-fiu d3 flex items-center gap-6 mb-10">
+        <div><div class="text-2xl font-display font-extrabold text-pk-dark">2,500+</div><div class="text-[11px] text-neutral-400 mt-0.5">Properties Sold</div></div>
+        <div class="w-px h-10 bg-neutral-200"></div>
+        <div><div class="text-2xl font-display font-extrabold text-pk-dark">15+</div><div class="text-[11px] text-neutral-400 mt-0.5">Cities Covered</div></div>
+        <div class="w-px h-10 bg-neutral-200"></div>
+        <div><div class="text-2xl font-display font-extrabold text-pk-dark">98%</div><div class="text-[11px] text-neutral-400 mt-0.5">Client Satisfaction</div></div>
+      </div>
+    </div>
+    <div class="lg:col-span-6">
+      <div class="bg-white rounded-2xl shadow-2xl p-6 border border-neutral-100">
+        <h3 class="text-base font-display font-bold text-pk-dark mb-4 flex items-center gap-2">
+          <iconify-icon icon="lucide:search" width="18" class="text-pk-green"></iconify-icon> Search Properties
+        </h3>
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">City</label>
+            <select id="s-city" class="w-full h-11 px-3 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white">
+              <option value="">All Cities</option>
+              <option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Peshawar</option><option>Multan</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Property Type</label>
+            <select id="s-type" class="w-full h-11 px-3 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white">
+              <option value="">All Types</option>
+              <option>House</option><option>Apartment</option><option>Plot</option><option>Commercial</option><option>Farm House</option><option>Penthouse</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Min Budget</label>
+            <select id="s-min" class="w-full h-11 px-3 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white">
+              <option value="0">No Min</option>
+              <option value="2000000">20 Lac</option><option value="5000000">50 Lac</option><option value="10000000">1 Crore</option><option value="30000000">3 Crore</option><option value="50000000">5 Crore</option><option value="100000000">10 Crore</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Max Budget</label>
+            <select id="s-max" class="w-full h-11 px-3 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white">
+              <option value="999999999">No Max</option>
+              <option value="5000000">50 Lac</option><option value="10000000">1 Crore</option><option value="30000000">3 Crore</option><option value="50000000">5 Crore</option><option value="100000000">10 Crore</option><option value="500000000">50 Crore</option>
+            </select>
+          </div>
+        </div>
+        <button onclick="searchProperties()" class="w-full bg-pk-green text-white text-sm font-bold h-12 rounded-lg hover:bg-pk-dark transition-colors flex items-center justify-center gap-2">
+          <iconify-icon icon="lucide:search" width="16"></iconify-icon> Search Properties
+        </button>
+        <p id="search-error" class="text-xs text-red-500 mt-2 hidden"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Bar -->
+<section class="bg-pk-green text-white py-6">
+  <div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <div><div class="text-2xl font-display font-extrabold">500+</div><div class="text-[11px] text-white/60 mt-0.5">Active Listings</div></div>
+    <div><div class="text-2xl font-display font-extrabold">350+</div><div class="text-[11px] text-white/60 mt-0.5">Happy Families</div></div>
+    <div><div class="text-2xl font-display font-extrabold">50+</div><div class="text-[11px] text-white/60 mt-0.5">Expert Agents</div></div>
+    <div><div class="text-2xl font-display font-extrabold">15+</div><div class="text-[11px] text-white/60 mt-0.5">Years Experience</div></div>
+  </div>
+</section>
+
+<!-- Properties -->
+<section id="properties" class="py-16 lg:py-24 bg-neutral-50">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal text-center mb-10">
+      <span class="text-[10px] font-bold uppercase tracking-widest text-pk-green/60 mb-2 block">Our Portfolio</span>
+      <h2 class="text-2xl lg:text-3xl font-display font-bold tracking-tight text-pk-dark">Featured Properties</h2>
+    </div>
+    <!-- Filter Tabs -->
+    <div class="reveal flex flex-wrap gap-2 mb-8 justify-center">
+      <button onclick="filterProps('all')" class="filter-btn active text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-neutral-200 transition-all duration-200">All</button>
+      <button onclick="filterProps('House')" class="filter-btn text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-pk-green hover:text-pk-green transition-all duration-200">Houses</button>
+      <button onclick="filterProps('Apartment')" class="filter-btn text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-pk-green hover:text-pk-green transition-all duration-200">Apartments</button>
+      <button onclick="filterProps('Plot')" class="filter-btn text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-pk-green hover:text-pk-green transition-all duration-200">Plots</button>
+      <button onclick="filterProps('Commercial')" class="filter-btn text-[11px] font-bold uppercase tracking-wider px-4 py-2 rounded-full border border-neutral-200 text-neutral-500 hover:border-pk-green hover:text-pk-green transition-all duration-200">Commercial</button>
+    </div>
+    <div id="props-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      <!-- Injected by JS -->
+    </div>
+    <div id="no-results" class="hidden text-center py-16">
+      <iconify-icon icon="lucide:search-x" width="48" class="text-neutral-300 mb-3"></iconify-icon>
+      <p class="text-neutral-400 font-medium">No properties match your criteria</p>
+      <button onclick="filterProps('all')" class="mt-3 text-sm font-semibold text-pk-green hover:underline">Clear filters</button>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services" class="py-16 lg:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal text-center mb-12">
+      <span class="text-[10px] font-bold uppercase tracking-widest text-pk-green/60 mb-2 block">What We Do</span>
+      <h2 class="text-2xl lg:text-3xl font-display font-bold tracking-tight text-pk-dark">Our Services</h2>
+    </div>
+    <div class="reveal grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="group bg-neutral-50 rounded-2xl p-7 border border-neutral-100 hover:border-pk-green/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-400">
+        <div class="w-12 h-12 bg-pk-green/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-pk-green group-hover:text-white transition-colors"><iconify-icon icon="lucide:home" width="22" class="text-pk-green group-hover:text-white transition-colors"></iconify-icon></div>
+        <h3 class="text-base font-display font-bold text-pk-dark mb-2">Buy Property</h3>
+        <p class="text-sm text-neutral-500 leading-relaxed">Find verified houses, apartments, and plots across Pakistan's top societies.</p>
+      </div>
+      <div class="group bg-neutral-50 rounded-2xl p-7 border border-neutral-100 hover:border-pk-green/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-400">
+        <div class="w-12 h-12 bg-pk-green/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-pk-green group-hover:text-white transition-colors"><iconify-icon icon="lucide:tag" width="22" class="text-pk-green group-hover:text-white transition-colors"></iconify-icon></div>
+        <h3 class="text-base font-display font-bold text-pk-dark mb-2">Sell Property</h3>
+        <p class="text-sm text-neutral-500 leading-relaxed">Get the best market value with our expert valuation and vast buyer network.</p>
+      </div>
+      <div class="group bg-neutral-50 rounded-2xl p-7 border border-neutral-100 hover:border-pk-green/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-400">
+        <div class="w-12 h-12 bg-pk-green/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-pk-green group-hover:text-white transition-colors"><iconify-icon icon="lucide:key" width="22" class="text-pk-green group-hover:text-white transition-colors"></iconify-icon></div>
+        <h3 class="text-base font-display font-bold text-pk-dark mb-2">Rent Property</h3>
+        <p class="text-sm text-neutral-500 leading-relaxed">Tenant screening, legal agreements, and hassle-free rental management.</p>
+      </div>
+      <div class="group bg-neutral-50 rounded-2xl p-7 border border-neutral-100 hover:border-pk-green/20 hover:shadow-lg hover:-translate-y-1 transition-all duration-400">
+        <div class="w-12 h-12 bg-pk-green/10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-pk-green group-hover:text-white transition-colors"><iconify-icon icon="lucide:file-check" width="22" class="text-pk-green group-hover:text-white transition-colors"></iconify-icon></div>
+        <h3 class="text-base font-display font-bold text-pk-dark mb-2">Legal Advisory</h3>
+        <p class="text-sm text-neutral-500 leading-relaxed">Complete documentation, transfer, mutation, and legal consultation services.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Areas -->
+<section id="areas" class="py-16 lg:py-24 bg-neutral-50">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal text-center mb-12">
+      <span class="text-[10px] font-bold uppercase tracking-widest text-pk-green/60 mb-2 block">Coverage</span>
+      <h2 class="text-2xl lg:text-3xl font-display font-bold tracking-tight text-pk-dark">Areas We Cover</h2>
+    </div>
+    <div class="reveal grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <button onclick="filterByCity('Lahore')" class="group relative overflow-hidden rounded-xl h-36 cursor-pointer">
+        <img src="https://picsum.photos/seed/lahore-badshahi/400/300.jpg" alt="Lahore" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-3 left-3"><div class="text-sm font-bold text-white">Lahore</div><div class="text-[10px] text-white/60">180+ listings</div></div>
+      </button>
+      <button onclick="filterByCity('Karachi')" class="group relative overflow-hidden rounded-xl h-36 cursor-pointer">
+        <img src="https://picsum.photos/seed/karachi-clifton/400/300.jpg" alt="Karachi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-3 left-3"><div class="text-sm font-bold text-white">Karachi</div><div class="text-[10px] text-white/60">150+ listings</div></div>
+      </button>
+      <button onclick="filterByCity('Islamabad')" class="group relative overflow-hidden rounded-xl h-36 cursor-pointer">
+        <img src="https://picsum.photos/seed/islamabad-faisal/400/300.jpg" alt="Islamabad" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-3 left-3"><div class="text-sm font-bold text-white">Islamabad</div><div class="text-[10px] text-white/60">120+ listings</div></div>
+      </button>
+      <button onclick="filterByCity('Rawalpindi')" class="group relative overflow-hidden rounded-xl h-36 cursor-pointer">
+        <img src="https://picsum.photos/seed/rawalpindi-city/400/300.jpg" alt="Rawalpindi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-3 left-3"><div class="text-sm font-bold text-white">Rawalpindi</div><div class="text-[10px] text-white/60">80+ listings</div></div>
+      </button>
+      <button onclick="filterByCity('Faisalabad')" class="group relative overflow-hidden rounded-xl h-36 cursor-pointer">
+        <img src="https://picsum.photos/seed/faisalabad-clock/400/300.jpg" alt="Faisalabad" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-3 left-3"><div class="text-sm font-bold text-white">Faisalabad</div><div class="text-[10px] text-white/60">40+ listings</div></div>
+      </button>
+      <button onclick="filterByCity('Peshawar')" class="group relative overflow-hidden rounded-xl h-36 cursor-pointer">
+        <img src="https://picsum.photos/seed/peshawar-mosque/400/300.jpg" alt="Peshawar" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        <div class="absolute bottom-3 left-3"><div class="text-sm font-bold text-white">Peshawar</div><div class="text-[10px] text-white/60">30+ listings</div></div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="py-16 lg:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal grid lg:grid-cols-2 gap-14 items-center">
+      <div class="relative">
+        <div class="rounded-2xl overflow-hidden"><img src="https://picsum.photos/seed/pakistan-office-team/700/500.jpg" alt="Our Team" class="w-full h-80 object-cover"></div>
+        <div class="absolute -bottom-5 -right-5 bg-pk-green text-white rounded-xl p-5 shadow-xl" style="animation:float 5s ease-in-out infinite">
+          <div class="text-2xl font-display font-extrabold">15+</div>
+div><div class="text-[10px] text-white/70">Years of Trust</div>
+        </div>
+      </div>
+      <div>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-pk-green/60 mb-3 block">About Us</span>
+        <h2 class="text-2xl lg:text-3xl font-display font-bold tracking-tight text-pk-dark mb-5">Pakistan's Most Trusted Name in Real Estate</h2>
+        <p class="text-neutral-500 leading-relaxed mb-5">Since 2010, Green Acres has been helping Pakistanis find their perfect home. With deep expertise in DHA, Bahria Town, Emaar, and all major housing societies, we make property transactions transparent, secure, and hassle-free.</p>
+        <p class="text-neutral-500 leading-relaxed mb-8">Our team of 50+ certified agents operates across 15+ cities, providing end-to-end services from property search to legal documentation and possession handover.</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="flex items-center gap-3"><iconify-icon icon="lucide:check-circle-2" width="18" class="text-pk-green"></iconify-icon><span class="text-sm font-medium">Verified Listings</span></div>
+          <div class="flex items-center gap-3"><iconify-icon icon="lucide:check-circle-2" width="18" class="text-pk-green"></iconify-icon><span class="text-sm font-medium">Legal Guarantee</span></div>
+          <div class="flex items-center gap-3"><iconify-icon icon="lucide:check-circle-2" width="18" class="text-pk-green"></iconify-icon><span class="text-sm font-medium">No Hidden Charges</span></div>
+          <div class="flex items-center gap-3"><iconify-icon icon="lucide:check-circle-2" width="18" class="text-pk-green"></iconify-icon><span class="text-sm font-medium">24/7 Support</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-16 lg:py-24 bg-neutral-50">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal text-center mb-12">
+      <span class="text-[10px] font-bold uppercase tracking-widest text-pk-green/60 mb-2 block">Testimonials</span>
+      <h2 class="text-2xl lg:text-3xl font-display font-bold tracking-tight text-pk-dark">What Our Clients Say</h2>
+    </div>
+    <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-5">
+      <div class="bg-white rounded-2xl p-7 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-1 mb-3"><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon></div>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-5">"Green Acres helped us buy a 10 Marla house in DHA Phase 5, Lahore. The entire process from search to possession was seamless. Highly recommended!"</p>
+        <div class="flex items-center gap-3"><img src="https://picsum.photos/seed/pk-client-ahmed/48/48.jpg" class="w-9 h-9 rounded-full object-cover"><div><div class="text-sm font-bold text-pk-dark">Ahmed Khan</div><div class="text-[11px] text-neutral-400">Businessman, Lahore</div></div></div>
+      </div>
+      <div class="bg-white rounded-2xl p-7 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-1 mb-3"><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon></div>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-5">"We were looking for an apartment in Clifton and Green Acres found us the perfect one within our budget. Their knowledge of Karachi's market is unmatched."</p>
+        <div class="flex items-center gap-3"><img src="https://picsum.photos/seed/pk-client-fatima/48/48.jpg" class="w-9 h-9 rounded-full object-cover"><div><div class="text-sm font-bold text-pk-dark">Fatima Rizvi</div><div class="text-[11px] text-neutral-400">Doctor, Karachi</div></div></div>
+      </div>
+      <div class="bg-white rounded-2xl p-7 border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+        <div class="flex items-center gap-1 mb-3"><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon><iconify-icon icon="lucide:star" width="14" class="text-amber-400"></iconify-icon></div>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-5">"Invested in a 1 Kanal plot in Bahria Town through Green Acres. Their legal team handled everything. Property value has already increased 40% in 2 years."</p>
+        <div class="flex items-center gap-3"><img src="https://picsum.photos/seed/pk-client-usman/48/48.jpg" class="w-9 h-9 rounded-full object-cover"><div><div class="text-sm font-bold text-pk-dark">Usman Ali</div><div class="text-[11px] text-neutral-400">Expatriate, UAE</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-20 bg-pk-green text-white relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10"><img src="https://picsum.photos/seed/pakistan-pattern-arch/1920/400.jpg" class="w-full h-full object-cover"></div>
+  <div class="max-w-7xl mx-auto px-5 text-center relative z-10">
+    <div class="reveal">
+      <h2 class="text-2xl lg:text-4xl font-display font-bold tracking-tight mb-4">Want to Buy, Sell or Rent?</h2>
+      <p class="text-white/70 max-w-md mx-auto mb-8">Talk to our experts today. Free consultation, no obligation.</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="bg-white text-pk-green text-sm font-bold h-12 px-8 rounded-lg hover:bg-neutral-100 transition-colors">Get Free Consultation</button>
+        <a href="https://wa.me/923001234567?text=Assalam%20o%20Alaikum!%20I%20need%20property%20consultation." target="_blank" class="bg-[#25D366] text-white text-sm font-bold h-12 px-8 rounded-lg hover:bg-[#20BA5C] transition-colors flex items-center gap-2">
+          <iconify-icon icon="logos:whatsapp-icon" width="18"></iconify-icon> WhatsApp Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="py-16 lg:py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="reveal grid lg:grid-cols-2 gap-14">
+      <div>
+        <span class="text-[10px] font-bold uppercase tracking-widest text-pk-green/60 mb-3 block">Get In Touch</span>
+        <h2 class="text-2xl lg:text-3xl font-display font-bold tracking-tight text-pk-dark mb-5">Contact Us</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">Whether you're buying your first home or investing in commercial property, our team is here to guide you every step of the way.</p>
+        <div class="space-y-5">
+          <div class="flex items-start gap-4"><div class="w-10 h-10 bg-pk-green/10 rounded-lg flex items-center justify-center flex-shrink-0"><iconify-icon icon="lucide:map-pin" width="18" class="text-pk-green"></iconify-icon></div><div><div class="text-sm font-bold text-pk-dark">Main Office</div><div class="text-sm text-neutral-500">45-B, Main Boulevard, Gulberg III, Lahore</div></div></div>
+          <div class="flex items-start gap-4"><div class="w-10 h-10 bg-pk-green/10 rounded-lg flex items-center justify-center flex-shrink-0"><iconify-icon icon="lucide:phone" width="18" class="text-pk-green"></iconify-icon></div><div><div class="text-sm font-bold text-pk-dark">Phone / WhatsApp</div><div class="text-sm text-neutral-500">+92 300 1234567</div></div></div>
+          <div class="flex items-start gap-4"><div class="w-10 h-10 bg-pk-green/10 rounded-lg flex items-center justify-center flex-shrink-0"><iconify-icon icon="lucide:mail" width="18" class="text-pk-green"></iconify-icon></div><div><div class="text-sm font-bold text-pk-dark">Email</div><div class="text-sm text-neutral-500">farazbaloch0707@gmail.com</div></div></div>
+          <div class="flex items-start gap-4"><div class="w-10 h-10 bg-pk-green/10 rounded-lg flex items-center justify-center flex-shrink-0"><iconify-icon icon="lucide:clock" width="18" class="text-pk-green"></iconify-icon></div><div><div class="text-sm font-bold text-pk-dark">Working Hours</div><div class="text-sm text-neutral-500">Mon – Sat: 9:00 AM – 8:00 PM<br>Sunday: By Appointment</div></div></div>
+        </div>
+      </div>
+      <div>
+        <form id="contact-form" onsubmit="handleContact(event)" class="bg-neutral-50 rounded-2xl p-7 border border-neutral-100">
+          <h3 class="text-base font-display font-bold text-pk-dark mb-5">Send Us a Message</h3>
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div><label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Full Name *</label><input type="text" id="cf-name" required class="w-full h-11 px-3.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white" placeholder="Muhammad Ahmed"></div>
+            <div><label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Phone *</label><input type="tel" id="cf-phone" required class="w-full h-11 px-3.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white" placeholder="0300-1234567"></div>
+          </div>
+          <div class="mb-3"><label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Email</label><input type="email" id="cf-email" class="w-full h-11 px-3.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white" placeholder="your@email.com"></div>
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div><label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Interest</label><select id="cf-interest" class="w-full h-11 px-3.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white"><option>Buy Property</option><option>Sell Property</option><option>Rent Property</option><option>Investment</option><option>Legal Advisory</option><option>Other</option></select></div>
+            <div><label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">City</label><select id="cf-city" class="w-full h-11 px-3.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition bg-white"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Other</option></select></div>
+          </div>
+          <div class="mb-5"><label class="text-[10px] font-bold uppercase tracking-wider text-neutral-400 mb-1 block">Message *</label><textarea id="cf-msg" required rows="3" class="w-full px-3.5 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:border-pk-green focus:ring-1 focus:ring-pk-green/20 transition resize-none bg-white" placeholder="I am looking for a 10 Marla house in DHA Lahore within 2.5 Crore budget..."></textarea></div>
+          <button type="submit" id="cf-btn" class="w-full bg-pk-green text-white text-sm font-bold h-12 rounded-lg hover:bg-pk-dark transition-colors flex items-center justify-center gap-2"><iconify-icon icon="lucide:send" width="15"></iconify-icon> Send Message</button>
+          <p id="cf-error" class="text-xs text-red-500 mt-2 hidden"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-pk-dark text-white pt-16 pb-8">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+      <div class="col-span-2 md:col-span-1">
+        <div class="flex items-center gap-2.5 mb-4"><div class="w-8 h-8 bg-pk-green rounded-lg flex items-center justify-center"><iconify-icon icon="lucide:building-2" width="16" class="text-white"></iconify-icon></div><div><span class="text-base font-display font-bold leading-none">Green Acres</span><span class="block text-[8px] text-white/40 uppercase tracking-wider leading-none mt-0.5">Estate Agency</span></div></div>
+        <p class="text-sm text-white/40 leading-relaxed mb-5">Pakistan's trusted real estate partner since 2010. Helping you find home.</p>
+        <div class="flex gap-2">
+          <a href="#" onclick="showToast('Follow us on Facebook','lucide:facebook')" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-pk-green transition-colors"><iconify-icon icon="lucide:facebook" width="14" class="text-white/60"></iconify-icon></a>
+          <a href="#" onclick="showToast('Follow us on Instagram','lucide:instagram')" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-pk-green transition-colors"><iconify-icon icon="lucide:instagram" width="14" class="text-white/60"></iconify-icon></a>
+          <a href="#" onclick="showToast('Follow us on YouTube','lucide:youtube')" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-pk-green transition-colors"><iconify-icon icon="lucide:youtube" width="14" class="text-white/60"></iconify-icon></a>
+          <a href="https://wa.me/923001234567" target="_blank" class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center hover:bg-[#25D366] transition-colors"><iconify-icon icon="logos:whatsapp-icon" width="14"></iconify-icon></a>
+        </div>
+      </div>
+      <div><div class="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-4">Quick Links</div><div class="space-y-2.5"><a href="#properties" class="block text-sm text-white/50 hover:text-white transition-colors">Properties</a><a href="#services" class="block text-sm text-white/50 hover:text-white transition-colors">Services</a><a href="#areas" class="block text-sm text-white/50 hover:text-white transition-colors">Areas</a><a href="#about" class="block text-sm text-white/50 hover:text-white transition-colors">About Us</a><a href="#contact" class="block text-sm text-white/50 hover:text-white transition-colors">Contact</a></div></div>
+      <div><div class="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-4">Top Societies</div><div class="space-y-2.5"><button onclick="showToast('DHA Lahore listings loading...','lucide:home')" class="block text-sm text-white/50 hover:text-white transition-colors text-left">DHA Lahore</button><button onclick="showToast('Bahria Town listings loading...','lucide:home')" class="block text-sm text-white/50 hover:text-white transition-colors text-left">Bahria Town</button><button onclick="showToast('Clifton Karachi listings loading...','lucide:home')" class="block text-sm text-white/50 hover:text-white transition-colors text-left">Clifton Karachi</button><button onclick="showToast('F-Sectors Islamabad listings loading...','lucide:home')" class="block text-sm text-white/50 hover:text-white transition-colors text-left">F-Sectors Islamabad</button><button onclick="showToast('Emaar listings loading...','lucide:home')" class="block text-sm text-white/50 hover:text-white transition-colors text-left">Emaar Pakistan</button></div></div>
+      <div><div class="text-[10px] font-bold uppercase tracking-widest text-white/30 mb-4">Contact</div><div class="space-y-2.5"><div class="text-sm text-white/50">45-B, Main Boulevard<br>Gulberg III, Lahore</div><div class="text-sm text-white/50">+92 300 1234567</div><div class="text-sm text-white/50">farazbaloch0707@gmail.com</div></div></div>
+    </div>
+    <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="text-xs text-white/30">© 2025 Green Acres Estate Agency. All rights reserved.</div>
+      <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="text-xs text-white/30 hover:text-white transition-colors flex items-center gap-1">Back to top <iconify-icon icon="lucide:arrow-up" width="12"></iconify-icon></button>
+    </div>
+  </div>
+</footer>
+
+<!-- Property Detail Modal -->
+<div id="prop-modal" class="modal-overlay hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onclick="closePropModal(event)">
+  <div class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div id="prop-modal-content"><!-- Filled by JS --></div>
+  </div>
+</div>
+
+<script>
+const OWNER_EMAIL='farazbaloch0707@gmail.com';
+const FORMSUBMIT_URL='https://formsubmit.co/ajax/'+OWNER_EMAIL;
+
+// ========== PROPERTY DATA ==========
+const properties=[
+  {id:1,title:'10 Marla Modern House',type:'House',city:'Lahore',area:'DHA Phase 5',size:'10 Marla',beds:5,baths:5,price:25000000,badge:'hot',img:'https://picsum.photos/seed/pk-dha-house/700/450.jpg',desc:'Beautifully designed modern house with premium finishes, imported tiles, rooftop terrace, and landscaped lawn. Corner plot, park-facing. Fully furnished option available.',features:['Corner Plot','Park Facing','Rooftop Terrace',' Imported Finishes','Lawn','Car Porch for 2 Cars']},
+  {id:2,title:'1 Kanal Executive House',type:'House',city:'Rawalpindi',area:'Bahria Town Phase 8',size:'1 Kanal',beds:6,baths:7,price:38000000,badge:'featured',img:'https://picsum.photos/seed/pk-bahria-house/700/450.jpg',desc:'Premium 1 Kanal executive house in Bahria Town Phase 8. Elegant architecture with modern amenities, basement, and servant quarter. Near commercial area and mosque.',features:['Basement','Servant Quarter','Near Commercial','Modern Design','DDC Paid','Gas Available']},
+  {id:3,title:'3 Bed Luxury Apartment',type:'Apartment',city:'Karachi',area:'Clifton Block 5',size:'1,800 sqft',beds:3,baths:3,price:18500000,badge:'new',img:'https://picsum.photos/seed/pk-clifton-apt/700/450.jpg',desc:'Sea-view apartment in a premium high-rise. Italian marble flooring, modern kitchen, 24/7 security, gym, and pool. Ideal for families.',features:['Sea View','High-Rise','Gym & Pool','24/7 Security','Covered Parking','Backup Generator']},
+  {id:4,title:'1 Kanal Bungalow',type:'House',city:'Islamabad',area:'F-10/2',size:'1 Kanal',beds:6,baths:6,price:52000000,badge:'featured',img:'https://picsum.photos/seed/pk-f10-house/700/450.jpg',desc:'Elegant bungalow in the prestigious F-10 sector. Close to markets, mosques, and parks. Solid construction with modern interiors and lush garden.',features:['Prime Location','Solid Construction','Lush Garden','Near Markaz','Wide Road','Internet Fiber']},
+  {id:5,title:'500 Sqyd Residential Plot',type:'Plot',city:'Karachi',area:'DHA Phase 6',size:'500 Sqyd',beds:0,baths:0,price:45000000,badge:'hot',img:'https://picsum.photos/seed/pk-dha-plot/700/450.jpg',desc:'Prime residential plot in DHA Phase 6, ideal for construction. All utilities available. Near school and commercial market. Excellent investment opportunity.',features:['Prime Location','Utilities Available','Near School','Possession Ready','Society Maintained','Appreciating Area']},
+  {id:6,title:'5 Marla Affordable House',type:'House',city:'Lahore',area:'Bahria Town Phase 7',size:'5 Marla',beds:3,baths:3,price:9500000,badge:'new',img:'https://picsum.photos/seed/pk-bahria-5marla/700/450.jpg',desc:'Well-constructed 5 Marla house at an affordable price. 3 bedrooms with attached baths, modern kitchen, and small lawn. Perfect for small families.',features:['Affordable','3 Attached Baths','Modern Kitchen','Small Lawn','Park Facing','Gas & Electricity']},
+  {id:7,title:'Commercial Plot 8 Marla',type:'Commercial',city:'Lahore',area:'Gulberg III',size:'8 Marla',beds:0,baths:0,price:80000000,badge:'featured',img:'https://picsum.photos/seed/pk-gulberg-comm/700/450.jpg',desc:'Prime commercial plot on Main Boulevard, Gulberg III. Excellent for offices, showrooms, or restaurants. High footfall area with massive business potential.',features:['Main Boulevard','High Footfall','Commercial Zone','Multiple Usage','Near Malls','Excellent ROI']},
+  {id:8,title:'2 Bed Modern Apartment',type:'Apartment',city:'Islamabad',area:'E-11/2',size:'1,200 sqft',beds:2,baths:2,price:8500000,badge:'new',img:'https://picsum.photos/seed/pk-e11-apt/700/450.jpg',desc:'Well-finished 2-bed apartment in E-11 sector. Near Margalla Hills with scenic views. Gated society with 24/7 security, park, and mosque.',features:['Margalla Views','Gated Society','24/7 Security','Near Park','Covered Parking','Elevator Building']},
+  {id:9,title:'10 Marla House DHA Phase 3',type:'House',city:'Islamabad',area:'DHA Phase 3',size:'10 Marla',beds:5,baths:5,price:21000000,badge:'',img:'https://picsum.photos/seed/pk-dha-isb-house/700/450.jpg',desc:'Spacious 10 Marla house in DHA Islamabad Phase 3. Well-maintained, near sector gate, commercial area, and school. Good condition, ready to move in.',features:['Ready to Move','Near Gate','Near School','Commercial Nearby','Wide Street','DDC Paid']},
+  {id:10,title:'Luxury Bungalow',type:'House',city:'Karachi',area:'Clifton Block 2',size:'1,000 Sqyd',beds:7,baths:8,price:120000000,badge:'hot',img:'https://picsum.photos/seed/pk-clifton-bung/700/450.jpg',desc:'Ultra-luxury bungalow in Clifton Block 2. Imported fixtures, private pool, home theater, and staff quarters. One of the most exclusive addresses in Pakistan.',features:['Private Pool','Home Theater','Staff Quarters','Imported Fixtures','Beach Nearby','Maximum Security']},
+  {id:11,title:'1 Kanal Farm House',type:'Farm House',city:'Lahore',area:'Raiwind Road',size:'1 Kanal',beds:4,baths:4,price:15000000,badge:'new',img:'https://picsum.photos/seed/pk-farmhouse/700/450.jpg',desc:'Beautiful farm house on Raiwind Road with green surroundings, swimming pool, and party lawn. Perfect for weekend retreats and family gatherings.',features:['Swimming Pool','Party Lawn','Green Surroundings','Tube Well','Security Guard','Farm Area']},
+  {id:12,title:'Penthouse 4 Bed',type:'Penthouse',city:'Karachi',area:'Dolphin Bay, Clifton',size:'3,200 sqft',beds:4,baths:4,price:65000000,badge:'featured',img:'https://picsum.photos/seed/pk-penthouse-khi/700/450.jpg',desc:'Ultra-modern penthouse with panoramic sea views. Private terrace, Jacuzzi, smart home features, and concierge service. The pinnacle of luxury living.',features:['Sea View Panoramic','Private Terrace','Jacuzzi','Smart Home','Concierge','Premium Finishes']}
+];
+
+// ========== PKR FORMATTER ==========
+function formatPKR(n){
+  if(n>=10000000){const c=n/10000000;return `${c%1===0?c:c.toFixed(1)} Crore`;}
+  if(n>=100000){const l=n/100000;return `${l%1===0?l:l.toFixed(1)} Lac`;}
+  return n.toLocaleString('en-PK');
+}
+
+// ========== RENDER PROPERTIES ==========
+let currentFilter='all';
+function renderProps(list){
+  const grid=document.getElementById('props-grid'),nr=document.getElementById('no-results');
+  if(!list.length){grid.innerHTML='';nr.classList.remove('hidden');return;}
+  nr.classList.add('hidden');
+  grid.innerHTML=list.map((p,i)=>`
+    <div class="prop-card bg-white rounded-2xl overflow-hidden border border-neutral-100 cursor-pointer" onclick="openPropModal(${p.id})" style="animation:fade-in-up .6s ${i*0.08}s cubic-bezier(.16,1,.3,1) both">
+      <div class="relative h-52 overflow-hidden">
+        <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+        ${p.badge?`<span class="absolute top-3 left-3 badge-${p.badge} text-white text-[9px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full">${p.badge}</span>`:''}
+        <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[10px] font-bold text-pk-dark px-2.5 py-1 rounded-full">${p.size}</span>
+        <button onclick="event.stopPropagation();whatsappInquiry(${p.id})" class="absolute bottom-3 right-3 w-9 h-9 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform"><iconify-icon icon="logos:whatsapp-icon" width="18"></iconify-icon></button>
+      </div>
+      <div class="p-5">
+        <div class="flex items-center gap-1.5 text-[11px] text-neutral-400 mb-1.5"><iconify-icon icon="lucide:map-pin" width="12"></iconify-icon>${p.area}, ${p.city}</div>
+        <h3 class="text-[15px] font-display font-bold text-pk-dark mb-3 leading-snug">${p.title}</h3>
+        ${p.beds?`<div class="flex items-center gap-4 mb-3 text-xs text-neutral-500"><span class="flex items-center gap-1"><iconify-icon icon="lucide:bed-double" width="13"></iconify-icon>${p.beds} Beds</span><span class="flex items-center gap-1"><iconify-icon icon="lucide:bath" width="13"></iconify-icon>${p.baths} Baths</span><span class="flex items-center gap-1"><iconify-icon icon="lucide:maximize" width="13"></iconify-icon>${p.size}</span></div>`:''}
+        <div class="flex items-center justify-between pt-3 border-t border-neutral-100">
+          <div><span class="text-[10px] text-neutral-400">Price</span><div class="text-lg font-display font-extrabold text-pk-green">PKR ${formatPKR(p.price)}</div></div>
+          <span class="text-[11px] font-semibold text-pk-green flex items-center gap-1">Details <iconify-icon icon="lucide:arrow-right" width="12"></iconify-icon></span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function filterProps(type){
+  currentFilter=type;
+  document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('active');if(b.textContent.trim().toLowerCase()===(type==='all'?'all':type.toLowerCase()))b.classList.add('active');});
+  const filtered=type==='all'?properties:properties.filter(p=>p.type===type);
+  renderProps(filtered);
+}
+
+function filterByCity(city){
+  document.getElementById('properties').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    const filtered=properties.filter(p=>p.city===city);
+    renderProps(filtered);
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    showToast(`Showing ${filtered.length} properties in ${city}`,'lucide:map-pin');
+  },500);
+}
+
+function searchProperties(){
+  const city=document.getElementById('s-city').value;
+  const type=document.getElementById('s-type').value;
+  const min=parseInt(document.getElementById('s-min').value)||0;
+  const max=parseInt(document.getElementById('s-max').value)||999999999;
+  let filtered=properties.filter(p=>p.price>=min&&p.price<=max);
+  if(city)filtered=filtered.filter(p=>p.city===city);
+  if(type)filtered=filtered.filter(p=>p.type===type);
+  document.getElementById('properties').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{
+    renderProps(filtered);
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    if(filtered.length)showToast(`${filtered.length} properties found!`,'lucide:check-circle');
+    else showToast('No properties match your search','lucide:search-x');
+  },500);
+}
+
+// ========== PROPERTY MODAL ==========
+function openPropModal(id){
+  const p=properties.find(x=>x.id===id);if(!p)return;
+  const c=document.getElementById('prop-modal-content');
+  c.innerHTML=`
+    <div class="relative h-64 md:h-80 overflow-hidden rounded-t-2xl"><img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover">
+      <button onclick="document.getElementById('prop-modal').classList.add('hidden');document.body.style.overflow=''" class="absolute top-4 right-4 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center hover:bg-white transition-colors"><iconify-icon icon="lucide:x" width="18" class="text-neutral-600"></iconify-icon></button>
+      ${p.badge?`<span class="absolute top-4 left-4 badge-${p.badge} text-white text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">${p.badge}</span>`:''}
+    </div>
+    <div class="p-6 md:p-8">
+      <div class="flex items-center gap-1.5 text-xs text-neutral-400 mb-2"><iconify-icon icon="lucide:map-pin" width="13"></iconify-icon>${p.area}, ${p.city}</div>
+      <h2 class="text-xl md:text-2xl font-display font-bold text-pk-dark mb-2">${p.title}</h2>
+      <div class="text-2xl font-display font-extrabold text-pk-green mb-5">PKR ${formatPKR(p.price)}</div>
+      ${p.beds?`<div class="flex items-center gap-5 mb-5 pb-5 border-b border-neutral-100 text-sm text-neutral-600"><span class="flex items-center gap-1.5"><iconify-icon icon="lucide:bed-double" width="16" class="text-pk-green"></iconify-icon>${p.beds} Bedrooms</span><span class="flex items-center gap-1.5"><iconify-icon icon="lucide:bath" width="16" class="text-pk-green"></iconify-icon>${p.baths} Bathrooms</span><span class="flex items-center gap-1.5"><iconify-icon icon="lucide:maximize" width="16" class="text-pk-green"></iconify-icon>${p.size}</span><span class="flex items-center gap-1.5"><iconify-icon icon="lucide:home" width="16" class="text-pk-green"></iconify-icon>${p.type}</span></div>`:''}
+      <div class="mb-5"><h4 class="text-sm font-bold text-pk-dark mb-2">Description</h4><p class="text-sm text-neutral-500 leading-relaxed">${p.desc}</p></div>
+      <div class="mb-6"><h4 class="text-sm font-bold text-pk-dark mb-2">Features</h4><div class="flex flex-wrap gap-2">${p.features.map(f=>`<span class="text-[11px] font-medium bg-pk-green/5 text-pk-green px-3 py-1.5 rounded-full border border-pk-green/10">${f}</span>`).join('')}</div></div>
+      <div class="grid grid-cols-2 gap-3">
+        <button onclick="whatsappInquiry(${p.id})" class="bg-[#25D366] text-white text-sm font-bold h-12 rounded-xl hover:bg-[#20BA5C] transition-colors flex items-center justify-center gap-2"><iconify-icon icon="logos:whatsapp-icon" width="18"></iconify-icon> WhatsApp</button>
+        <button onclick="closePropModalAndContact('${p.title}',${p.price})" class="bg-pk-green text-white text-sm font-bold h-12 rounded-xl hover:bg-pk-dark transition-colors flex items-center justify-center gap-2"><iconify-icon icon="lucide:phone" width="16"></iconify-icon> Call / Message</button>
+      </div>
+    </div>`;
+  document.getElementById('prop-modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+function closePropModal(e){if(e.target===e.currentTarget){document.getElementById('prop-modal').classList.add('hidden');document.body.style.overflow='';}}
+function closePropModalAndContact(title,price){document.getElementById('prop-modal').classList.add('hidden');document.body.style.overflow='';document.getElementById('contact').scrollIntoView({behavior:'smooth'});setTimeout(()=>{document.getElementById('cf-msg').value=`I am interested in "${title}" (PKR ${formatPKR(price)}). Please share more details.`;},700);}
+function whatsappInquiry(id){
+  const p=properties.find(x=>x.id===id);if(!p)return;
+  const msg=encodeURIComponent(`Assalam o Alaikum! I am interested in:\n\n🏠 ${p.title}\n📍 ${p.area}, ${p.city}\n📐 ${p.size}\n💰 PKR ${formatPKR(p.price)}\n\nPlease share more details. Shukriya!`);
+  window.open(`https://wa.me/923001234567?text=${msg}`,'_blank');
+}
+
+// ========== EMAIL ==========
+async function sendEmail(data,subject){
+  try{
+    const r=await fetch(FORMSUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify({...data,_subject:subject,_template:'table',_captcha:'false'})});
+    const res=await r.json();return res.success;
+  }catch(e){
+    const body=Object.entries(data).filter(([k])=>!k.startsWith('_')).map(([k,v])=>`${k}: ${v}`).join('\n');
+    window.open(`mailto:${OWNER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`,'_blank');return true;
+  }
+}
+
+async function handleContact(e){
+  e.preventDefault();
+  const err=document.getElementById('cf-error');err.classList.add('hidden');
+  const name=document.getElementById('cf-name').value.trim(),phone=document.getElementById('cf-phone').value.trim(),
+        email=document.getElementById('cf-email').value.trim(),interest=document.getElementById('cf-interest').value,
+        city=document.getElementById('cf-city').value,msg=document.getElementById('cf-msg').value.trim();
+  if(!name||!phone||!msg){err.textContent='Please fill Name, Phone, and Message.';err.classList.remove('hidden');return;}
+  const btn=document.getElementById('cf-btn');btn.disabled=true;btn.innerHTML='<iconify-icon icon="lucide:loader-2" width="16" class="animate-spin"></iconify-icon> Sending...';
+  const ok=await sendEmail({'Name':name,'Phone':phone,'Email':email||'Not provided','Interest':interest,'City':city,'Message':msg,'Time':new Date().toLocaleString()},`🏠 Green Acres Inquiry: ${interest} — ${city}`);
+  btn.disabled=false;btn.innerHTML='<iconify-icon icon="lucide:send" width="15"></iconify-icon> Send Message';
+  document.getElementById('contact-form').reset();
+  showToast(ok?'Message sent! We\'ll contact you soon.':'Opened email client — please send.','lucide:check-circle');
+}
+
+// ========== MOBILE MENU ==========
+let mobOpen=false;
+function toggleMobile(){mobOpen=!mobOpen;const m=document.getElementById('mob-menu'),ic=document.getElementById('mob-icon');if(mobOpen){m.style.maxHeight=m.scrollHeight+'px';m.style.opacity='1';ic.setAttribute('icon','lucide:x');}else{m.style.maxHeight='0';m.style.opacity='0';ic.setAttribute('icon','lucide:menu');}}
+function closeMobile(){if(mobOpen)toggleMobile();}
+
+// ========== NAVBAR SHADOW ==========
+window.addEventListener('scroll',()=>{const n=document.getElementById('navbar');n.classList.toggle('shadow-sm',window.scrollY>10);});
+
+// ========== REVEAL ==========
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('active');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ========== TOAST ==========
+let tt;function showToast(m,ic='lucide:check-circle'){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=m;document.getElementById('toast-icon').setAttribute('icon',ic);t.classList.remove('hidden');clearTimeout(tt);tt=setTimeout(()=>t.classList.add('hidden'),3500);}
+
+// ========== INIT ==========
+renderProps(properties);
+</script>
+</body>
+</html>
